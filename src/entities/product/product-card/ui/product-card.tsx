@@ -27,7 +27,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
       <div
         className={`
           flex flex-col justify-between
-          ${compact ? "h-[22rem] sm:w-64 " : "h-[29rem] sm:w-72"}
+          ${compact ? "h-[22rem] sm:w-64" : "h-[29rem] sm:w-[15rem]"}
           w-full
         `}
       >
