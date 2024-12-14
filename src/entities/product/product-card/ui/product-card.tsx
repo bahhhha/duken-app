@@ -23,12 +23,15 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const handleDetailsClick = () => navigate.push(`catalogue/${product.id}`);
 
   return (
-    <Card className="shadow-md w-full sm:w-auto">
+    <Card
+      className={`shadow-md ${
+        compact ? "h-[22rem] sm:w-64" : "h-[27.5rem] sm:w-[20rem]"
+      }`}
+    >
       <div
         className={`
-          flex flex-col justify-between
-          ${compact ? "h-[22rem] sm:w-64" : "h-[29rem] sm:w-[15rem]"}
-          w-full
+          flex flex-col
+          w-full items-stretch h-full
         `}
       >
         <div
@@ -47,7 +50,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           />
         </div>
 
-        <div className={`${compact ? "h-28" : "h-32"} px-2`}>
+        <div className={`${compact ? "h-28" : "h-32"} px-2 w-full`}>
           <h1
             className={`
               ${compact ? "text-md" : "text-lg"}

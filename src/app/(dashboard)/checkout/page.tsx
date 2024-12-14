@@ -10,7 +10,7 @@ import { fetchSendRequest } from "@/features/send-request/model/query";
 import { Check } from "lucide-react";
 import { useTheme } from "@/shared/hooks/useTheme";
 
-function Checkout() {
+function CheckoutPage() {
   const cartItems = useUnit($cart);
   const requestStatus = useUnit(fetchSendRequest.$status);
   const router = useRouter();
@@ -81,4 +81,4 @@ function Checkout() {
   );
 }
 
-export default Checkout;
+export default CheckoutPage;

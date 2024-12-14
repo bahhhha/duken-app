@@ -7,7 +7,7 @@ import { $products, CatalogueGate } from "@/features/get-products/model";
 import { ProductInfo } from "@/entities/product/product-info/ui/product-info";
 import { TryAlso } from "@/widgets/try-also/try-also";
 
-const ProductDetails: React.FC = () => {
+const ProductPage: React.FC = () => {
   const params = useParams();
   useGate(CatalogueGate);
   const products = useUnit($products);
@@ -35,4 +35,4 @@ const ProductDetails: React.FC = () => {
   );
 };
 
-export default ProductDetails;
+export default ProductPage;
