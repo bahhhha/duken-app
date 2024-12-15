@@ -6,6 +6,7 @@ import { useGate, useUnit } from "effector-react";
 import { $products, CatalogueGate } from "@/features/get-products/model";
 import { ProductInfo } from "@/entities/product/product-info/ui/product-info";
 import { TryAlso } from "@/widgets/try-also/try-also";
+// import { NextSeo } from "next-seo";
 
 const ProductPage: React.FC = () => {
   const params = useParams();
@@ -15,23 +16,33 @@ const ProductPage: React.FC = () => {
   const product = products.find((p) => p.id === params.id) || null;
   const randomProducts = products.filter((p) => p.id !== params.id).slice(0, 7);
 
+  // const getTitle = () => {
+  //   if (product) {
+  //     return `${product.name || "Продукт"}`;
+  //   }
+  //   return "Продукт не найден";
+  // };
+
   return (
-    <div className="w-full min-h-screen h-fit flex flex-col">
-      <div className="flex-grow">
-        {product ? (
-          <ProductInfo product={product} />
-        ) : (
-          <div className="flex justify-center items-center h-full">
-            Продукт не найден
+    <>
+      {/* <NextSeo title={getTitle()} /> */}
+      <div className="w-full min-h-screen h-fit flex flex-col">
+        <div className="flex-grow">
+          {product ? (
+            <ProductInfo product={product} />
+          ) : (
+            <div className="flex justify-center items-center h-full">
+              Продукт не найден
+            </div>
+          )}
+        </div>
+        {product && (
+          <div className="mt-4">
+            <TryAlso products={randomProducts} />
           </div>
         )}
       </div>
-      {product && (
-        <div className="mt-4">
-          <TryAlso products={randomProducts} />
-        </div>
-      )}
-    </div>
+    </>
   );
 };
 

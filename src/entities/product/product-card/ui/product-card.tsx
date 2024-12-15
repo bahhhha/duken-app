@@ -3,10 +3,12 @@
 import { Product } from "@/shared/interfaces/product";
 import { Button } from "@/shared/ui/button";
 import { Chip } from "@/shared/ui/chip";
-import Image from "next/image";
 import { AddToCart } from "@/features/product/add-to-cart/ui/add-to-cart";
 import { Card } from "antd";
 import { useRouter } from "next/navigation";
+import { Image } from "@/shared/ui/image";
+import { useUnit } from "effector-react";
+import { $cart } from "@/features/product/add-to-cart/model";
 
 interface ProductCardProps {
   product: Product;
@@ -18,8 +20,19 @@ const ProductCard: React.FC<ProductCardProps> = ({
   compact = false,
 }) => {
   const navigate = useRouter();
-  // const setProduct = useUnit(selectProduct);
-
+  const productInCart = useUnit($cart).find(
+    (item) => item.product.id === product.id
+  );
+  const productInCartQuantity = productInCart?.quantity || 0;
+  const getPrice = () => {
+    if (productInCartQuantity >= 200000) {
+      return Number(product.priceFrom200k) * Number(productInCartQuantity);
+    } else if (productInCartQuantity >= 150000) {
+      return Number(product.priceFrom150k) * Number(productInCartQuantity);
+    } else if (productInCartQuantity > 0) {
+      return Number(product.retailPrice) * Number(productInCartQuantity);
+    } else return Number(product.retailPrice);
+  };
   const handleDetailsClick = () => navigate.push(`catalogue/${product.id}`);
 
   return (
@@ -44,9 +57,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           <Image
             src={product.photo}
             alt={product.name}
-            fill
             sizes="(max-width: 640px) 100vw, 250px"
-            className="rounded-lg object-contain"
           />
         </div>
 
@@ -73,7 +84,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         <div className="w-full flex-col flex gap-2 px-2 pb-2">
           <div className="w-full flex gap-2 items-center">
             <div className="w-1/2">
-              <Chip>{product.retailPrice} $</Chip>
+              <Chip>{getPrice()} $</Chip>
             </div>
             <div className="w-1/2">
               <AddToCart product={product} />

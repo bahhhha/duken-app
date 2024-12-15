@@ -1,13 +1,16 @@
 import { CheckoutButton } from "@/entities/checkout/checkout-button";
-// import LanguageSelect from "@/features/language-select/ui/language-select";
 import GoBackButton from "@/widgets/go-back-button/go-back-button";
 
 const Header: React.FC = () => {
   return (
-    <header className="flex justify-between w-full items-center p-4 bg-white border-b px-8">
+    <header
+      style={{
+        boxShadow: "0px 6px 6px rgba(0, 0, 0, 0.05)",
+      }}
+      className="fixed top-0 left-0 right-0 z-[100] flex justify-between items-center p-4 bg-white border-b px-8 lg:ml-64"
+    >
       <GoBackButton />
       <div className="flex items-center space-x-8">
-        {/* <LanguageSelect /> */}
         <CheckoutButton />
       </div>
     </header>

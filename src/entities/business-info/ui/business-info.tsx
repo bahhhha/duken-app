@@ -1,10 +1,24 @@
 "use client";
 import { $details } from "@/features/get-products/model";
+import { fetchGetProducts } from "@/features/get-products/model/query";
+import { Loading } from "@/shared/ui/loading/loading";
 import { useUnit } from "effector-react";
 import Image from "next/image";
 
 const BusinessInfo: React.FC = () => {
-  const businessDetails = useUnit($details);
+  const [businessDetails, loading] = useUnit([
+    $details,
+    fetchGetProducts.$pending,
+  ]);
+
+  if (loading) {
+    return (
+      <div className="w-full h-48">
+        <Loading />
+      </div>
+    );
+  }
+
   return (
     <div
       className="relative w-full h-48 overflow-hidden"
