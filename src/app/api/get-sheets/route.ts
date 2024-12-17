@@ -16,7 +16,7 @@ export async function GET() {
     const sheets = google.sheets({ version: "v4", auth });
 
     const spreadsheetId = process.env.SPREADSHEET_ID;
-    const range = "Positions!A1:M10";
+    const range = "Positions!A1:M100";
 
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId,
