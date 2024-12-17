@@ -2,7 +2,7 @@
 
 import { Tabs } from "antd";
 import Link from "next/link";
-import { ShoppingCart, Star, Briefcase, Settings } from "lucide-react";
+import { ShoppingCart, } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 const MobileTabs: React.FC = () => {
@@ -14,21 +14,21 @@ const MobileTabs: React.FC = () => {
       icon: <ShoppingCart size={20} />,
       label: "Каталог",
     },
-    {
-      key: "/feedbacks",
-      icon: <Star size={20} />,
-      label: "Отзывы",
-    },
-    {
-      key: "/company",
-      icon: <Briefcase size={20} />,
-      label: "О бизнесе",
-    },
-    {
-      key: "/settings",
-      icon: <Settings size={20} />,
-      label: "Настройки",
-    },
+    // {
+    //   key: "/feedbacks",
+    //   icon: <Star size={20} />,
+    //   label: "Отзывы",
+    // },
+    // {
+    //   key: "/company",
+    //   icon: <Briefcase size={20} />,
+    //   label: "О бизнесе",
+    // },
+    // {
+    //   key: "/settings",
+    //   icon: <Settings size={20} />,
+    //   label: "Настройки",
+    // },
   ];
 
   return (
