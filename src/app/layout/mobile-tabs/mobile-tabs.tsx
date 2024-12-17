@@ -2,7 +2,7 @@
 
 import { Tabs } from "antd";
 import Link from "next/link";
-import { ShoppingCart, Star, Briefcase, Settings } from "lucide-react";
+import { ShoppingCart, } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 const MobileTabs: React.FC = () => {

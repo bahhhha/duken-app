@@ -2,10 +2,7 @@ import BusinessInfo from "../../../entities/business-info/ui/business-info";
 import Link from "next/link";
 import { Menu, Drawer } from "antd";
 import {
-  Briefcase,
-  Settings,
   ShoppingCart,
-  Star,
   // Menu as MenuIcon,
 } from "lucide-react";
 import { useState } from "react";
