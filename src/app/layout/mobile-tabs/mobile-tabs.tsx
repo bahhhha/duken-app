@@ -14,21 +14,21 @@ const MobileTabs: React.FC = () => {
       icon: <ShoppingCart size={20} />,
       label: "Каталог",
     },
-    {
-      key: "/feedbacks",
-      icon: <Star size={20} />,
-      label: "Отзывы",
-    },
-    {
-      key: "/company",
-      icon: <Briefcase size={20} />,
-      label: "О бизнесе",
-    },
-    {
-      key: "/settings",
-      icon: <Settings size={20} />,
-      label: "Настройки",
-    },
+    // {
+    //   key: "/feedbacks",
+    //   icon: <Star size={20} />,
+    //   label: "Отзывы",
+    // },
+    // {
+    //   key: "/company",
+    //   icon: <Briefcase size={20} />,
+    //   label: "О бизнесе",
+    // },
+    // {
+    //   key: "/settings",
+    //   icon: <Settings size={20} />,
+    //   label: "Настройки",
+    // },
   ];
 
   return (

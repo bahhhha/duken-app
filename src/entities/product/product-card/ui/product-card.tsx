@@ -38,7 +38,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   return (
     <Card
       className={`shadow-md ${
-        compact ? "h-[22rem] sm:w-64" : "h-[27.5rem] sm:w-[20rem]"
+        compact ? "h-[24rem] sm:w-64" : "h-[28rem] sm:w-[20rem]"
       }`}
     >
       <div
@@ -84,7 +84,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         <div className="w-full flex-col flex gap-2 px-2 pb-2">
           <div className="w-full flex gap-2 items-center">
             <div className="w-1/2">
-              <Chip>{getPrice()} $</Chip>
+              <Chip>{getPrice()} ₸</Chip>
             </div>
             <div className="w-1/2">
               <AddToCart product={product} />

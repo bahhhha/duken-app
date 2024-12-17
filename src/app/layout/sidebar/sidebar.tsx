@@ -23,33 +23,33 @@ const Sidebar: React.FC = () => {
         </Link>
       ),
     },
-    {
-      key: "2",
-      icon: <Star size={16} />,
-      label: (
-        <Link href="/feedbacks" onClick={() => setIsMobileMenuOpen(false)}>
-          Отзывы
-        </Link>
-      ),
-    },
-    {
-      key: "3",
-      icon: <Briefcase size={16} />,
-      label: (
-        <Link href="/company" onClick={() => setIsMobileMenuOpen(false)}>
-          О бизнесе
-        </Link>
-      ),
-    },
-    {
-      key: "4",
-      icon: <Settings size={16} />,
-      label: (
-        <Link href="/settings" onClick={() => setIsMobileMenuOpen(false)}>
-          Настройки
-        </Link>
-      ),
-    },
+    // {
+    //   key: "2",
+    //   icon: <Star size={16} />,
+    //   label: (
+    //     <Link href="/feedbacks" onClick={() => setIsMobileMenuOpen(false)}>
+    //       Отзывы
+    //     </Link>
+    //   ),
+    // },
+    // {
+    //   key: "3",
+    //   icon: <Briefcase size={16} />,
+    //   label: (
+    //     <Link href="/company" onClick={() => setIsMobileMenuOpen(false)}>
+    //       О бизнесе
+    //     </Link>
+    //   ),
+    // },
+    // {
+    //   key: "4",
+    //   icon: <Settings size={16} />,
+    //   label: (
+    //     <Link href="/settings" onClick={() => setIsMobileMenuOpen(false)}>
+    //       Настройки
+    //     </Link>
+    //   ),
+    // },
   ];
 
   const DesktopSidebar = () => (
