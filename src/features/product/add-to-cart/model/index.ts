@@ -1,9 +1,10 @@
 import { Product } from "@/shared/interfaces/product";
-import { createEvent, createStore } from "effector";
+import { createEvent, createStore, combine } from "effector";
 
 export interface CartItem {
   product: Product;
   quantity: number;
+  total: number; // Add total for each item
 }
 
 export const addProduct = createEvent<Product>();
@@ -14,17 +15,39 @@ export const setProductQuantity = createEvent<{
 }>();
 export const cartUpdatedFromStorage = createEvent<CartItem[]>();
 export const resetCart = createEvent<void>();
+
+const calculateItemTotal = (product: Product, quantity: number): number => {
+  if (quantity >= 200000) {
+    return quantity * Number(product.priceFrom200k);
+  } else if (quantity >= 150000) {
+    return quantity * Number(product.priceFrom150k);
+  } else if (product.hotPrice) {
+    return quantity * Number(product.hotPrice);
+  } else {
+    return quantity * Number(product.retailPrice);
+  }
+};
+
 export const $cart = createStore<CartItem[]>([])
   .on(addProduct, (state, product) => {
     const index = state.findIndex((item) => item.product.id === product.id);
     if (index !== -1) {
+      const newQuantity = state[index].quantity + 1;
       const updatedItem = {
         ...state[index],
-        quantity: state[index].quantity + 1,
+        quantity: newQuantity,
+        total: calculateItemTotal(product, newQuantity),
       };
       return [...state.slice(0, index), updatedItem, ...state.slice(index + 1)];
     } else {
-      return [...state, { product, quantity: 1 }];
+      return [
+        ...state,
+        {
+          product,
+          quantity: 1,
+          total: calculateItemTotal(product, 1),
+        },
+      ];
     }
   })
   .on(removeProduct, (state, product) => {
@@ -32,7 +55,11 @@ export const $cart = createStore<CartItem[]>([])
     if (index !== -1) {
       const newQuantity = state[index].quantity - 1;
       if (newQuantity > 0) {
-        const updatedItem = { ...state[index], quantity: newQuantity };
+        const updatedItem = {
+          ...state[index],
+          quantity: newQuantity,
+          total: calculateItemTotal(product, newQuantity),
+        };
         return [
           ...state.slice(0, index),
           updatedItem,
@@ -48,14 +75,25 @@ export const $cart = createStore<CartItem[]>([])
     const index = state.findIndex((item) => item.product.id === product.id);
     if (quantity > 0) {
       if (index !== -1) {
-        const updatedItem = { ...state[index], quantity };
+        const updatedItem = {
+          ...state[index],
+          quantity,
+          total: calculateItemTotal(product, quantity),
+        };
         return [
           ...state.slice(0, index),
           updatedItem,
           ...state.slice(index + 1),
         ];
       } else {
-        return [...state, { product, quantity }];
+        return [
+          ...state,
+          {
+            product,
+            quantity,
+            total: calculateItemTotal(product, quantity),
+          },
+        ];
       }
     } else {
       if (index !== -1) {
@@ -67,36 +105,6 @@ export const $cart = createStore<CartItem[]>([])
   .on(cartUpdatedFromStorage, (_, newCart) => newCart)
   .reset(resetCart);
 
-// if (typeof window !== "undefined") {
-//   const initialCartJSON = localStorage.getItem("cart");
-//   if (initialCartJSON) {
-//     try {
-//       const initialCart: CartItem[] = JSON.parse(initialCartJSON);
-//       if (Array.isArray(initialCart)) {
-//         cartUpdatedFromStorage(initialCart);
-//       } else {
-//         localStorage.removeItem("cart");
-//       }
-//     } catch {
-//       localStorage.removeItem("cart");
-//     }
-//   }
-
-//   $cart.watch((state) => {
-//     localStorage.setItem("cart", JSON.stringify(state));
-//   });
-
-//   window.addEventListener("storage", (event) => {
-//     if (event.key === "cart" && event.newValue) {
-//       try {
-//         const newCart: CartItem[] = JSON.parse(event.newValue);
-//         if (
-//           Array.isArray(newCart) &&
-//           JSON.stringify(newCart) !== JSON.stringify($cart.getState())
-//         ) {
-//           cartUpdatedFromStorage(newCart);
-//         }
-//       } catch {}
-//     }
-//   });
-// }
+export const $cartTotal = combine($cart, (cart) =>
+  cart.reduce((sum, item) => sum + item.total, 0)
+);

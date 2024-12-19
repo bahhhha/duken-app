@@ -20,7 +20,7 @@ export const ProductCardMini: React.FC<ProductCardMiniProps> = ({
       <div className="flex h-full w-full flex-col justify-between py-2">
         <div className="w-full h-36 relative">
           <Image
-            src={product.photo}
+            src={product.photos[0]}
             alt={product.name}
             fill
             className="rounded-md object-contain"

@@ -6,7 +6,7 @@ import {
   Settings,
   ShoppingCart,
   Star,
-  Menu as MenuIcon,
+  // Menu as MenuIcon,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -64,19 +64,19 @@ const Sidebar: React.FC = () => {
     </div>
   );
 
-  const MobileMenuTrigger = () => (
-    <button
-      onClick={() => setIsMobileMenuOpen(true)}
-      className="lg:hidden fixed top-5 left-5 z-[100]"
-    >
-      <MenuIcon size={24} />
-    </button>
-  );
+  // const MobileMenuTrigger = () => (
+  //   <button
+  //     onClick={() => setIsMobileMenuOpen(true)}
+  //     className="lg:hidden fixed top-5 left-5 z-[100]"
+  //   >
+  //     <MenuIcon size={24} />
+  //   </button>
+  // );
 
   return (
     <>
       <DesktopSidebar />
-      <MobileMenuTrigger />
+      {/* <MobileMenuTrigger /> */}
 
       <Drawer
         title="Меню"
