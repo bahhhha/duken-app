@@ -5,7 +5,6 @@ import { useParams } from "next/navigation";
 import { useGate, useUnit } from "effector-react";
 import { $products, CatalogueGate } from "@/features/get-products/model";
 import { ProductInfo } from "@/entities/product/product-info/ui/product-info";
-import { TryAlso } from "@/widgets/try-also/try-also";
 // import { NextSeo } from "next-seo";
 
 const ProductPage: React.FC = () => {
@@ -14,7 +13,6 @@ const ProductPage: React.FC = () => {
   const products = useUnit($products);
 
   const product = products.find((p) => p.id === params.id) || null;
-  const randomProducts = products.filter((p) => p.id !== params.id).slice(0, 7);
 
   // const getTitle = () => {
   //   if (product) {
@@ -36,11 +34,11 @@ const ProductPage: React.FC = () => {
             </div>
           )}
         </div>
-        {product && (
+        {/* {product && (
           <div className="mt-4">
             <TryAlso products={randomProducts} />
           </div>
-        )}
+        )} */}
       </div>
     </>
   );

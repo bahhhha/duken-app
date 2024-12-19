@@ -16,7 +16,7 @@ export async function GET() {
     const sheets = google.sheets({ version: "v4", auth });
 
     const spreadsheetId = process.env.SPREADSHEET_ID;
-    const range = "Positions!A1:M10";
+    const range = "Positions!A1:O20";
 
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId,
@@ -38,22 +38,32 @@ export async function GET() {
       theme: values[1][7] || "",
     };
 
-    const products: Product[] = values.slice(5).map((row) => ({
-      id: row[0] || "",
-      name: row[1] || "",
-      flavor: row[2] || "",
-      description: row[3] || "",
-      retailPrice: row[4] || "",
-      priceFrom150k: row[5] || "",
-      priceFrom200k: row[6] || "",
-      category: row[7] || "",
-      quantity: row[8] || "",
-      weight: row[9] || "",
-      packagesPerBox: row[10] || "",
-      production: row[11] || "",
-      photo: row[12] || "",
-    }));
+    const products: Product[] = values.slice(4).map((row) => {
+      const photoUrls = row[12]
+        ? row[12]
+            .split(",")
+            .map((url: string) => url.trim().replace(/\n/g, ""))
+            .filter((url: string) => url.length > 0)
+        : [];
 
+      return {
+        id: row[0] || "",
+        name: row[1] || "",
+        flavor: row[2] || "",
+        description: row[3] || "",
+        retailPrice: row[4] || "",
+        priceFrom150k: row[5] || "",
+        priceFrom200k: row[6] || "",
+        category: row[7] || "",
+        quantity: row[8] || "",
+        weight: row[9] || "",
+        packagesPerBox: row[10] || "",
+        production: row[11] || "",
+        photos: photoUrls, // Changed from photo to photos
+        hotPrice: row[13] || "",
+        recommended: row[14] === "TRUE",
+      };
+    });
     return NextResponse.json({
       details,
       theme,

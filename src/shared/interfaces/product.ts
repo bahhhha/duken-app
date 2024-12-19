@@ -11,5 +11,7 @@ export interface Product {
   weight: string;
   packagesPerBox: string;
   production: string;
-  photo: string;
+  photos: string[];
+  recommended: boolean;
+  hotPrice: string;
 }
