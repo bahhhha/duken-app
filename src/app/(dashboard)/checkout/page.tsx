@@ -3,15 +3,16 @@ import React, { useEffect } from "react";
 import { useUnit } from "effector-react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { $cart } from "@/features/product/add-to-cart/model";
+import { $cart, $cartTotal } from "@/features/product/add-to-cart/model";
 import RequestForm from "@/features/send-request/ui/request-form";
 import { fetchSendRequest } from "@/features/send-request/model/query";
 import { Check } from "lucide-react";
 import { useTheme } from "@/shared/hooks/useTheme";
 import { ProductCardRow } from "@/entities/product/product-card-row";
+import { Divider } from "antd";
 
 function CheckoutPage() {
-  const cartItems = useUnit($cart);
+  const [cartItems, total] = useUnit([$cart, $cartTotal]);
   const requestStatus = useUnit(fetchSendRequest.$status);
   const router = useRouter();
   const theme = useTheme();
@@ -39,30 +40,36 @@ function CheckoutPage() {
   }
 
   return (
-    <div className="flex md:flex-row flex-col justify-center gap-4 h-full w-full px-8">
-      <div className="md:w-2/3 w-full flex flex-col gap-4">
-        <p className="text-xl font-bold bg-zinc-50 p-4 rounded-lg">Корзина</p>
-        <div className="flex gap-4 flex-col w-[30rem]">
-          {cartItems.map((cartItem, index) => (
-            <motion.div
-              key={cartItem.product.id}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3, delay: index * 0.1 }}
-            >
-              <ProductCardRow product={cartItem.product} />
-            </motion.div>
-          ))}
+    <div className="flex md:flex-row gap-8 flex-col justify-between h-[42vw] w-full px-8">
+      <div className="md:w-1/2 w-full flex flex-col justify-between h-full">
+        <div>
+          <p className="text-xl font-bold bg-zinc-50 p-4 rounded-lg mb-4">
+            Корзина
+          </p>
+          <div className="flex flex-col">
+            {cartItems.map((cartItem, index) => (
+              <div key={index}>
+                <ProductCardRow
+                  key={cartItem.product.id}
+                  product={cartItem.product}
+                />
+                {index !== cartItems.length - 1 && <Divider />}
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="w-full bg-zinc-50 p-4 rounded-lg flex justify-between">
+          <span>Итого</span>
+          <span className="font-bold">{total} ₸</span>
         </div>
       </div>
-      <div className="md:w-1/3 w-full">
+      <div className="md:w-1/2 w-full h-full">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.3, delay: cartItems.length * 0.1 }}
-          className="flex flex-col gap-4"
+          className="flex flex-col gap-4 h-full"
         >
           <p
             style={{

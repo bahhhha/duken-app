@@ -12,6 +12,7 @@ export const CheckoutButton = () => {
   return (
     <Button
       icon={<ShoppingBag size={16} />}
+      disabled={totalCount === 0}
       className="w-24"
       onClick={() => openDrawer()}
     >

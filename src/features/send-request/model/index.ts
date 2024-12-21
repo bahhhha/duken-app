@@ -3,9 +3,15 @@ import { fetchSendRequest } from "./query";
 import { resetCart } from "@/features/product/add-to-cart/model";
 
 export interface SubmitData {
-  name: string;
+  firstName: string;
+  lastName: string;
+  email: string;
   phoneNumber: string;
-  message: string;
+  streetAddress: string;
+  houseNumber: string;
+  apartmentNumber?: string;
+  floor?: string;
+  message?: string;
 }
 
 const submitRequest = createEvent<SubmitData>();
