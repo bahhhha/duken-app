@@ -22,20 +22,24 @@ const ProductCardRow = ({ product }: ProductCardRowProps) => {
   };
 
   return (
-    <div className="w-full flex items-start h-24 gap-4">
-      <div className="w-fit flex">
-        <div className="w-24 h-24 relative">
-          <Image
-            src={product.photos[0]}
-            alt={product.name}
-            fill
-            className="object-contain rounded-md border"
-          />
+    <div className="w-full flex items-start justify-between h-24 gap-4">
+      <div className="w-3/4 flex items-center gap-4">
+        <div className="w-fit flex">
+          <div className="w-24 h-24 relative">
+            <Image
+              src={product.photos[0]}
+              alt={product.name}
+              fill
+              className="object-contain rounded-md border"
+            />
+          </div>
         </div>
-      </div>
-      <div className="w-1/3 gap-4 flex flex-col h-full">
-        <p className="font-bold text-sm">{product.name}</p>
-        <AddToCart product={product} />
+        <div className="w-2/3 gap-4 flex flex-col h-full">
+          <p className="font-bold text-sm">{product.name}</p>
+          <div className="w-36">
+            <AddToCart product={product} />
+          </div>
+        </div>
       </div>
       <div className="w-1/4 flex flex-col justify-between items-end h-full">
         <p className="font-bold">{productInCart?.total ?? 0}₸</p>

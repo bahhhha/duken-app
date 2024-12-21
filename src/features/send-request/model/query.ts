@@ -5,8 +5,16 @@ const fetchSendRequest = createQuery({
   name: "sendRequest",
   async handler(data) {
     const formattedData = {
-      name: data.name,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      email: data.email,
       phone: data.phoneNumber,
+      address: {
+        street: data.streetAddress,
+        house: data.houseNumber,
+        apartment: data.apartmentNumber,
+        floor: data.floor,
+      },
       message: data.message,
       cart: $cart.getState(),
     };

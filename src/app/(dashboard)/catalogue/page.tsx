@@ -9,16 +9,13 @@ import {
   loadFavoritesFromStorage,
 } from "@/features/add-to-favourites/model";
 import { useEffect } from "react";
-import { CartDrawer } from "@/widgets/cart/cart-drawer/ui/cart-drawer";
-import { $cartDrawerOpen } from "@/widgets/cart/cart-drawer/model";
 
 export default function Catalogue() {
   useGate(CatalogueGate);
 
-  const [loading, favoritesIds, cartDrawerOpen] = useUnit([
+  const [loading, favoritesIds] = useUnit([
     fetchGetProducts.$pending,
     $favoritesIds,
-    $cartDrawerOpen,
   ]);
 
   useEffect(() => {
@@ -30,23 +27,23 @@ export default function Catalogue() {
   );
 
   return (
-    <div>
+    <div className="container mx-auto px-4">
       {loading ? (
         <div className="w-full h-[40vw]">
           <Loading />
         </div>
       ) : (
-        <div className="flex flex-wrap gap-4 w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
           {productsHotFirst.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              isFavorite={favoritesIds.has(product.id)}
-            />
+            <div key={product.id} className="w-full">
+              <ProductCard
+                product={product}
+                isFavorite={favoritesIds.has(product.id)}
+              />
+            </div>
           ))}
         </div>
       )}
-      {cartDrawerOpen && <CartDrawer />}
     </div>
   );
 }

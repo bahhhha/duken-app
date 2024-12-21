@@ -49,7 +49,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   return (
     <Card
       className="shadow-md 
-        h-[27.5rem] sm:w-[20rem]"
+        h-[27rem] sm:w-[17.5rem]"
     >
       <div
         className={`
@@ -89,10 +89,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
           />
         </div>
 
-        <div className="h-32 px-2 w-full`">
+        <div className="h-36 px-2 w-full`">
           <h1
             className="
-              text-lg
+              text-base
               h-1/3 flex items-center font-bold mb-2 line-clamp-2
             "
           >

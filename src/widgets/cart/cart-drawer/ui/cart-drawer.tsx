@@ -3,10 +3,25 @@ import { $cart, $cartTotal } from "@/features/product/add-to-cart/model";
 import { Button } from "@/shared/ui/button";
 import { Divider, Drawer } from "antd";
 import { useUnit } from "effector-react";
-import { closeCartDrawer } from "../model";
+import { $cartDrawerOpen, closeCartDrawer } from "../model";
+import { useRouter } from "next/navigation";
 
 const CartDrawer: React.FC = () => {
-  const [cart, total, close] = useUnit([$cart, $cartTotal, closeCartDrawer]);
+  const [cart, total, close, isOpen] = useUnit([
+    $cart,
+    $cartTotal,
+    closeCartDrawer,
+    $cartDrawerOpen,
+  ]);
+  const router = useRouter();
+
+  const handleCheckout = () => {
+    close();
+    router.push("/checkout");
+  };
+
+  if (!isOpen) return null;
+
   return (
     <Drawer
       title="Корзина"
@@ -35,8 +50,10 @@ const CartDrawer: React.FC = () => {
             <span>Итого:</span>
             <span>{total}</span>
           </div>
-          <Button type="primary">Оплатить</Button>
-          <Button type="text">Перейти в корзину</Button>
+          <Button type="primary" onClick={handleCheckout}>
+            Оплатить
+          </Button>
+          {/* <Button type="text">Перейти в корзину</Button> */}
         </div>
       </div>
     </Drawer>
