@@ -32,13 +32,14 @@ const MobileTabs: React.FC = () => {
           key: item.key,
           label: (
             <Link href={item.key}>
-              <div className="flex flex-col items-center">
+              <div className="flex flex-col items-center justify-center">
                 {item.icon}
                 <span className="text-xs mt-1">{item.label}</span>
               </div>
             </Link>
           ),
         }))}
+        className="w-full"
       />
     </div>
   );
