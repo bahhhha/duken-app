@@ -13,7 +13,7 @@ export const CheckoutButton = () => {
     <Button
       icon={<ShoppingBag size={16} />}
       disabled={totalCount === 0}
-      className="w-24"
+      className="w-auto min-w-[48px] max-w-[64px] p-2 flex items-center justify-center"
       onClick={() => openDrawer()}
     >
       <p className="font-bold text-xs">{totalCount}</p>

@@ -12,8 +12,6 @@ const GoBackButton: React.FC = () => {
   const isRootPage = pathname === "/" || pathname.split("/").length <= 2;
 
   const handleGoBack = () => {
-    if (isRootPage) return;
-
     const pathSegments = pathname.split("/").filter(Boolean);
     if (pathSegments.length > 1) {
       const parentPath = "/" + pathSegments.slice(0, -1).join("/");
@@ -23,12 +21,11 @@ const GoBackButton: React.FC = () => {
     }
   };
 
-  if (isRootPage) return <div />;
-
   return (
     <div className="w-24">
       <Button
         type="text"
+        disabled={isRootPage}
         onClick={handleGoBack}
         icon={<ChevronLeft size={16} />}
         aria-label="Go back"

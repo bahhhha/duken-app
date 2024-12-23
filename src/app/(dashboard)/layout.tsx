@@ -13,7 +13,11 @@ export default function DashboardLayout({
   const themeConfig = useTheme();
 
   if (!themeConfig) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="text-gray-500">Loading...</div>
+      </div>
+    );
   }
 
   return (
@@ -27,11 +31,14 @@ export default function DashboardLayout({
         },
       }}
     >
-      <div className="flex min-h-screen flex-col gap-16">
-        <Header />
+      <div className="flex flex-col min-h-screen">
+        <div className="sticky top-0 z-50 bg-white border-b w-full">
+          <Header />
+        </div>
 
-        <main>{children}</main>
-        <div className="mt-16">
+        <main className="flex-grow w-full overflow-hidden">{children}</main>
+
+        <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white w-full border-t">
           <MobileTabs />
         </div>
       </div>
