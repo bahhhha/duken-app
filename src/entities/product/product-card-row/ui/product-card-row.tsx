@@ -36,7 +36,7 @@ const ProductCardRow = ({ product }: ProductCardRowProps) => {
         </div>
         <div className="w-2/3 gap-4 flex flex-col h-full">
           <p className="font-bold text-sm">{product.name}</p>
-          <div className="w-36">
+          <div className="w-32">
             <AddToCart product={product} />
           </div>
         </div>
@@ -44,7 +44,7 @@ const ProductCardRow = ({ product }: ProductCardRowProps) => {
       <div className="w-1/4 flex flex-col justify-between items-end h-full">
         <p className="font-bold">{productInCart?.total ?? 0}₸</p>
         <button
-          className="text-red-400 hover:text-red-500 text-sm"
+          className="text-red-400 hover:text-red-500 text-xs"
           onClick={handleDelete}
         >
           Удалить
