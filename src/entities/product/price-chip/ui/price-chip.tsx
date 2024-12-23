@@ -1,5 +1,3 @@
-import { Chip } from "@/shared/ui/chip";
-
 interface PriceChipProps {
   price: number;
   discountedPrice?: number | null;
@@ -7,18 +5,18 @@ interface PriceChipProps {
 
 const PriceChip = ({ price, discountedPrice }: PriceChipProps) => {
   return (
-    <Chip>
+    <div>
       {discountedPrice ? (
-        <div className="flex items-center">
+        <div className="flex items-center gap-1">
           <span className="line-through text-gray-500 text-sm mr-1">
             {price}
           </span>
-          <span className="text-base font-semibold">{discountedPrice}₸</span>
+          <span className="text-base font-semibold">{discountedPrice} ₸</span>
         </div>
       ) : (
-        <span className="text-base font-semibold">{price}₸</span>
+        <span className="text-base font-semibold">{price} ₸</span>
       )}
-    </Chip>
+    </div>
   );
 };
 

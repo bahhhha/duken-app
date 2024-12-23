@@ -2,7 +2,7 @@
 
 import { Tabs } from "antd";
 import Link from "next/link";
-import { ShoppingCart, Star, Briefcase, Settings } from "lucide-react";
+import { ShoppingBag, ShoppingCart } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 const MobileTabs: React.FC = () => {
@@ -15,29 +15,14 @@ const MobileTabs: React.FC = () => {
       label: "Каталог",
     },
     {
-      key: "/feedbacks",
-      icon: <Star size={20} />,
-      label: "Отзывы",
-    },
-    {
-      key: "/company",
-      icon: <Briefcase size={20} />,
-      label: "О бизнесе",
-    },
-    {
-      key: "/settings",
-      icon: <Settings size={20} />,
-      label: "Настройки",
+      key: "/checkout",
+      icon: <ShoppingBag size={20} />,
+      label: "Корзина",
     },
   ];
 
   return (
-    <div
-      style={{
-        boxShadow: "0px -6px 6px rgba(0, 0, 0, 0.05)",
-      }}
-      className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 shadow-md"
-    >
+    <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 shadow-md">
       <Tabs
         defaultActiveKey={pathname}
         activeKey={pathname}

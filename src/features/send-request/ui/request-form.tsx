@@ -1,8 +1,10 @@
+import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { Card, Spin, Divider } from "antd";
+
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/shared/ui/input";
-import { Card, Spin } from "antd";
 import { Textarea } from "@/shared/ui/textarea";
 import { useUnit } from "effector-react";
 import { submitRequest } from "../model";
@@ -38,8 +40,6 @@ const RequestForm: React.FC = () => {
       floor: "",
       comments: "",
     },
-    validateOnBlur: false,
-    validateOnChange: false,
     validationSchema: Yup.object({
       firstName: Yup.string().required("Требуется имя"),
       lastName: Yup.string().required("Требуется фамилия"),
@@ -68,24 +68,24 @@ const RequestForm: React.FC = () => {
 
   if (requestStatus === "pending") {
     return (
-      <Card className="h-full flex items-center justify-center shadow-md">
+      <Card className="h-full flex items-center justify-center shadow-sm">
         <Spin size="large" />
       </Card>
     );
   }
 
   return (
-    <Card className="p-2 h-full">
-      <form onSubmit={formik.handleSubmit} className="space-y-6 h-full">
-        <div className="grid grid-cols-2 gap-4">
+    <Card className="shadow-sm border border-gray-100">
+      <form onSubmit={formik.handleSubmit} className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <Input
               label="Имя"
+              name="firstName"
               value={formik.values.firstName}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               placeholder="Ваше имя"
-              name="firstName"
             />
             {formik.errors.firstName && (
               <p className="mt-1 text-xs text-red-500">
@@ -96,11 +96,11 @@ const RequestForm: React.FC = () => {
           <div>
             <Input
               label="Фамилия"
+              name="lastName"
               value={formik.values.lastName}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               placeholder="Ваша фамилия"
-              name="lastName"
             />
             {formik.errors.lastName && (
               <p className="mt-1 text-xs text-red-500">
@@ -110,45 +110,49 @@ const RequestForm: React.FC = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <Divider />
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <Input
               label="Email"
+              name="email"
+              type="email"
               value={formik.values.email}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               placeholder="Ваш email"
-              name="email"
-              type="email"
             />
             {formik.errors.email && (
               <p className="mt-1 text-xs text-red-500">{formik.errors.email}</p>
             )}
           </div>
-
           <div>
             <Input
               label="Номер телефона"
+              name="phone"
+              type="tel"
               value={formik.values.phone}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               placeholder="Ваш номер телефона"
-              name="phone"
-              type="tel"
             />
             {formik.errors.phone && (
               <p className="mt-1 text-xs text-red-500">{formik.errors.phone}</p>
             )}
           </div>
         </div>
+
+        <Divider />
+
         <div>
           <Input
-            label="Адрес"
+            label="Улица"
+            name="streetAddress"
             value={formik.values.streetAddress}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             placeholder="Улица"
-            name="streetAddress"
           />
           {formik.errors.streetAddress && (
             <p className="mt-1 text-xs text-red-500">
@@ -156,16 +160,15 @@ const RequestForm: React.FC = () => {
             </p>
           )}
         </div>
-
         <div className="flex items-end justify-between gap-4">
           <div>
             <Input
               label="Дом"
+              name="houseNumber"
               value={formik.values.houseNumber}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               placeholder="№"
-              name="houseNumber"
             />
             {formik.errors.houseNumber && (
               <p className="mt-1 text-xs text-red-500">
@@ -176,46 +179,47 @@ const RequestForm: React.FC = () => {
           <div>
             <Input
               label="Квартира"
+              name="apartmentNumber"
               value={formik.values.apartmentNumber}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               placeholder="№"
-              name="apartmentNumber"
             />
           </div>
           <div>
             <Input
               label="Этаж"
+              name="floor"
               value={formik.values.floor}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               placeholder="№"
-              name="floor"
             />
           </div>
         </div>
 
+        <Divider />
+
         <div>
           <Textarea
             label="Комментарии"
+            name="comments"
             value={formik.values.comments}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            placeholder="Ваши комментарии"
-            name="comments"
+            placeholder="Ваши комментарии (при необходимости)"
           />
         </div>
 
-        <div className="w-full flex justify-end">
-          <div className="w-24">
-            <Button
-              type="primary"
-              htmlType="submit"
-              disabled={formik.isSubmitting}
-            >
-              Отправить
-            </Button>
-          </div>
+        <div className="w-full flex justify-end mt-4">
+          <Button
+            type="primary"
+            htmlType="submit"
+            disabled={formik.isSubmitting}
+            className="px-6"
+          >
+            Отправить
+          </Button>
         </div>
       </form>
     </Card>

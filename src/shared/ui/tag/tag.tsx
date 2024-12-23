@@ -1,11 +1,28 @@
-import { Tag as AntdTag } from "antd";
+import { useTheme } from "@/shared/hooks/useTheme";
 
 interface TagProps {
+  checked?: boolean;
+  onClick?: () => void;
   children: React.ReactNode;
-  className?: string;
 }
 
-export const Tag = ({ children }: TagProps) => {
-  const text = children as string;
-  return <AntdTag>{text?.at(0)?.toUpperCase() + text.slice(1)}</AntdTag>;
+export const Tag: React.FC<TagProps> = ({
+  checked = false,
+  onClick,
+  children,
+}) => {
+  const theme = useTheme();
+  return (
+    <button
+      onClick={onClick}
+      className="px-2 h-6 text-xs rounded-full border"
+      style={{
+        backgroundColor: checked ? theme?.primaryColor : "white",
+        color: checked ? "white" : "black",
+      }}
+      type="button"
+    >
+      {children}
+    </button>
+  );
 };
