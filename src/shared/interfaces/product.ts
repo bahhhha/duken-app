@@ -1,16 +1,11 @@
 export interface Product {
   id: string;
   name: string;
-  flavor: string;
   description: string;
-  retailPrice: string;
-  priceFrom150k: string;
-  priceFrom200k: string;
+  price: string;
+  perPackage: string;
   category: string;
-  quantity: string;
-  weight: string;
-  packagesPerBox: string;
-  production: string;
+  content: string;
   photos: string[];
   recommended: boolean;
   hotPrice: string;

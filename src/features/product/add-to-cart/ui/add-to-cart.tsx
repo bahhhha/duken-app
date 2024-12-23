@@ -1,7 +1,7 @@
 import { Product } from "@/shared/interfaces/product";
 import { Button } from "@/shared/ui/button";
 import { useUnit } from "effector-react";
-import { Check, Minus, Pencil, Plus, ShoppingBag } from "lucide-react";
+import { Check, Minus, Pencil, Plus } from "lucide-react";
 import { $cart, addProduct, removeProduct, setProductQuantity } from "../model";
 import { useState } from "react";
 
@@ -18,7 +18,8 @@ export const AddToCart = ({ product }: { product: Product }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [inputValue, setInputValue] = useState<number>(productCount);
 
-  const handleQuantityUpdate = () => {
+  const handleQuantityUpdate = (e: React.MouseEvent) => {
+    e.stopPropagation();
     if (inputValue >= 0) {
       setQuantity({ product, quantity: inputValue });
     }
@@ -26,10 +27,14 @@ export const AddToCart = ({ product }: { product: Product }) => {
   };
 
   return productCount >= 1 ? (
-    <div className="flex items-center px-2 justify-around w-full">
+    <div
+      className="flex items-center px-2 justify-around w-full"
+      onClick={(e) => e.stopPropagation()}
+    >
       {!isEditing && (
         <button
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation();
             decrement(product);
           }}
           className="cursor-pointer flex justify-center hover:bg-zinc-50 w-6 h-6 rounded-full items-center duration-75"
@@ -43,6 +48,7 @@ export const AddToCart = ({ product }: { product: Product }) => {
             min={0}
             value={inputValue}
             onChange={(e) => setInputValue(Number(e.target.value) ?? 0)}
+            onClick={(e) => e.stopPropagation()}
             autoFocus
             className="w-full text-md outline-none text-center"
           />
@@ -52,16 +58,20 @@ export const AddToCart = ({ product }: { product: Product }) => {
       </div>
       {!isEditing && (
         <button
-          onClick={() => increment(product)}
+          onClick={(e) => {
+            e.stopPropagation();
+            increment(product);
+          }}
           className="cursor-pointer flex justify-center hover:bg-zinc-50 w-6 h-6 rounded-full items-center duration-75"
         >
           <Plus size={16} />
         </button>
       )}
       <div
-        onClick={() => {
+        onClick={(e) => {
+          e.stopPropagation();
           if (isEditing) {
-            handleQuantityUpdate();
+            handleQuantityUpdate(e);
           } else {
             setInputValue(productCount);
             setIsEditing(true);
@@ -73,10 +83,14 @@ export const AddToCart = ({ product }: { product: Product }) => {
       </div>
     </div>
   ) : (
-    <div className="w-full">
+    <div className="w-full" onClick={(e) => e.stopPropagation()}>
       <Button
-        onClick={() => increment(product)}
-        icon={<ShoppingBag size={16} />}
+        type="primary"
+        onClick={(e) => {
+          e.stopPropagation();
+          increment(product);
+        }}
+        icon={<Plus size={16} />}
       >
         В корзину
       </Button>

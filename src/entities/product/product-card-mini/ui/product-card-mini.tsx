@@ -1,7 +1,9 @@
-import { Product } from "@/shared/interfaces/product";
-import { ChevronRight } from "lucide-react";
+import React from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { Typography } from "antd";
+import { motion } from "framer-motion";
+
+import { Product } from "@/shared/interfaces/product";
 
 interface ProductCardMiniProps {
   product: Product;
@@ -10,29 +12,38 @@ interface ProductCardMiniProps {
 export const ProductCardMini: React.FC<ProductCardMiniProps> = ({
   product,
 }) => {
-  const router = useRouter();
-  const onClick = () => router.push(`/catalogue/${product.id}`);
   return (
-    <div
-      onClick={onClick}
-      className="drop-shadow-md rounded-lg bg-white duration-150 cursor-pointer hover:bg-zinc-100 w-[11rem] md:w-[12rem] h-[14rem]"
+    <motion.div
+      className="
+        w-48 h-64 p-4 bg-white rounded-md shadow-sm
+        flex flex-col justify-between items-center
+        hover:shadow-md transition-shadow
+        cursor-pointer
+      "
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
     >
-      <div className="flex h-full w-full flex-col justify-between py-2">
-        <div className="w-full h-36 relative">
-          <Image
-            src={product.photos[0]}
-            alt={product.name}
-            fill
-            className="rounded-md object-contain"
-          />
-        </div>
-        <div className="flex items-center w-full p-4 h-16 justify-between">
-          <p className="text-sm font-semibold">{product.name}</p>
-          <div className="w-4">
-            <ChevronRight size={24} />
-          </div>
-        </div>
+      <div className="relative w-full h-32 mb-2">
+        <Image
+          src={product.photos[0]}
+          alt={product.name}
+          fill
+          sizes="(max-width: 768px) 100vw"
+          className="object-contain"
+        />
       </div>
-    </div>
+
+      <Typography.Text strong className="text-sm">
+        {product.name}
+      </Typography.Text>
+
+      <Typography.Text className="text-xs text-gray-500 truncate">
+        {product.category}
+      </Typography.Text>
+
+      <Typography.Text className="text-sm text-blue-500">
+        {product.price}₸
+      </Typography.Text>
+    </motion.div>
   );
 };

@@ -17,14 +17,10 @@ export const cartUpdatedFromStorage = createEvent<CartItem[]>();
 export const resetCart = createEvent<void>();
 
 const calculateItemTotal = (product: Product, quantity: number): number => {
-  if (quantity >= 200000) {
-    return quantity * Number(product.priceFrom200k);
-  } else if (quantity >= 150000) {
-    return quantity * Number(product.priceFrom150k);
-  } else if (product.hotPrice) {
+  if (product.hotPrice) {
     return quantity * Number(product.hotPrice);
   } else {
-    return quantity * Number(product.retailPrice);
+    return quantity * Number(product.price);
   }
 };
 

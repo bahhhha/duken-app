@@ -40,7 +40,7 @@ const Image: React.FC<ImageProps> = ({
       <div className="flex flex-col gap-2">
         <div
           onClick={openModal}
-          className={`relative w-36 h-36 m-auto cursor-pointer ${containerClassName}`}
+          className={`relative w-full h-full m-auto cursor-pointer ${containerClassName}`}
         >
           <NextImage
             src={imageSrcs[currentImageIndex]}

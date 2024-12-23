@@ -1,9 +1,11 @@
-import { Product } from "@/shared/interfaces/product";
+import React, { useState } from "react";
 import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
+
+import { Typography, Tag } from "antd";
+import { Product } from "@/shared/interfaces/product";
 import { Chip } from "@/shared/ui/chip";
 import { AddToCart } from "@/features/product/add-to-cart/ui/add-to-cart";
-import { Tag, Typography } from "antd";
-import { useState } from "react";
 
 export interface ProductInfoProps {
   product: Product;
@@ -14,34 +16,45 @@ export const ProductInfo: React.FC<ProductInfoProps> = ({ product }) => {
 
   const tags = [
     { key: "category", value: product.category },
-    { key: "flavor", value: product.flavor },
-    { key: "weight", value: product.weight },
-    { key: "country", value: product.production },
+    { key: "flavor", value: product.perPackage },
   ];
 
   return (
-    <div className="p-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 max-w-6xl mx-auto">
-        <div className="flex flex-col items-center gap-2">
-          <div className="w-full max-w-md aspect-square relative">
-            <Image
-              src={product.photos[selectedImageIndex]}
-              alt={product.name}
-              fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              className="object-contain rounded-lg"
-              priority
-            />
+    <div className="max-w-6xl mx-auto w-full">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-start">
+        <div className="flex flex-col items-center gap-4">
+          <div className="relative w-full max-w-md aspect-square">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={product.photos[selectedImageIndex]}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="w-full h-full relative"
+              >
+                <Image
+                  src={product.photos[selectedImageIndex]}
+                  alt={product.name}
+                  fill
+                  className="object-contain rounded-lg"
+                  sizes="(max-width: 768px) 100vw,
+                          (max-width: 1200px) 50vw,
+                          33vw"
+                  priority
+                />
+              </motion.div>
+            </AnimatePresence>
           </div>
 
           {product.photos.length > 1 && (
-            <div className="flex gap-2 overflow-x-auto w-full max-w-md px-6">
+            <div className="flex gap-2 overflow-x-auto w-full max-w-md">
               {product.photos.map((photo, index) => (
                 <button
-                  key={index}
+                  key={photo}
                   onClick={() => setSelectedImageIndex(index)}
                   className={`
-                    relative w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden 
+                    relative w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden
                     transition-all duration-200
                     ${
                       selectedImageIndex === index
@@ -63,28 +76,32 @@ export const ProductInfo: React.FC<ProductInfoProps> = ({ product }) => {
           )}
         </div>
 
-        <div className="flex flex-col justify-center space-y-4">
-          <h1 className="text-2xl md:text-3xl font-bold">{product.name}</h1>
+        <div className="flex flex-col space-y-4">
+          <Typography.Title level={2}>{product.name}</Typography.Title>
+          <Typography.Text className="text-gray-500 text-lg">
+            {product.category}
+          </Typography.Text>
 
           <div>
-            <Typography.Text strong className="text-base">
-              Описание
-            </Typography.Text>
-            <p className="text-zinc-600 text-sm md:text-base">
-              {product.description}
-            </p>
+            <Typography.Text strong>Описание</Typography.Text>
+            <p className="text-gray-600">{product.description}</p>
+          </div>
+
+          <div>
+            <Typography.Text strong>Состав</Typography.Text>
+            <p className="text-gray-600">{product.content}</p>
           </div>
 
           <div className="flex flex-wrap gap-2">
-            {tags.map((tag, index) => (
-              <Tag key={index} className="py-1 px-2 text-xs">
+            {tags.map((tag) => (
+              <Tag key={tag.key} className="py-1 px-2 text-xs">
                 {tag.value.toUpperCase()}
               </Tag>
             ))}
           </div>
 
           <div className="flex items-center gap-4">
-            <Chip>{product.retailPrice}₸</Chip>
+            <Chip>{product.price}₸</Chip>
             <AddToCart product={product} />
           </div>
         </div>

@@ -1,47 +1,62 @@
 "use client";
 
 import React from "react";
+import { useUnit, useGate } from "effector-react";
 import { useParams } from "next/navigation";
-import { useGate, useUnit } from "effector-react";
+import { motion } from "framer-motion";
+
 import { $products, CatalogueGate } from "@/features/get-products/model";
 import { ProductInfo } from "@/entities/product/product-info/ui/product-info";
-// import { NextSeo } from "next-seo";
+import { TryAlso } from "@/widgets/try-also/try-also";
 
-const ProductPage: React.FC = () => {
-  const params = useParams();
+export default function ProductPage() {
+  const params = useParams<{ id: string }>();
   useGate(CatalogueGate);
+
   const products = useUnit($products);
 
   const product = products.find((p) => p.id === params.id) || null;
 
-  // const getTitle = () => {
-  //   if (product) {
-  //     return `${product.name || "Продукт"}`;
-  //   }
-  //   return "Продукт не найден";
-  // };
+  const randomProducts = products
+    .filter((p) => p.id !== product?.id)
+    .slice(0, 4);
 
   return (
-    <>
-      {/* <NextSeo title={getTitle()} /> */}
-      <div className="w-full min-h-screen h-fit flex flex-col">
-        <div className="flex-grow">
-          {product ? (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: "easeInOut" }}
+      className="w-full min-h-screen h-fit flex flex-col p-6 md:p-12"
+    >
+      {product ? (
+        <>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.4 }}
+          >
             <ProductInfo product={product} />
-          ) : (
-            <div className="flex justify-center items-center h-full">
-              Продукт не найден
-            </div>
-          )}
-        </div>
-        {/* {product && (
-          <div className="mt-4">
-            <TryAlso products={randomProducts} />
-          </div>
-        )} */}
-      </div>
-    </>
-  );
-};
+          </motion.div>
 
-export default ProductPage;
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4, duration: 0.4 }}
+            className="mt-8"
+          >
+            {randomProducts.length > 0 && <TryAlso products={randomProducts} />}
+          </motion.div>
+        </>
+      ) : (
+        <div className="flex flex-col justify-center items-center h-full">
+          <h2 className="text-center text-xl font-semibold mb-2">
+            Продукт не найден
+          </h2>
+          <p>
+            Убедитесь, что вы ввели правильный URL или выберите другой продукт.
+          </p>
+        </div>
+      )}
+    </motion.div>
+  );
+}
