@@ -31,12 +31,14 @@ export default function DashboardLayout({
         },
       }}
     >
-      <div className="flex flex-col min-h-screen">
+      <div className="flex flex-col min-h-screen overflow-x-hidden">
         <div className="sticky top-0 z-50 bg-white border-b w-full">
           <Header />
         </div>
 
-        <main className="flex-grow w-full overflow-hidden">{children}</main>
+        <main className="flex-grow w-full overflow-hidden mb-16">
+          {children}
+        </main>
 
         <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white w-full border-t">
           <MobileTabs />
