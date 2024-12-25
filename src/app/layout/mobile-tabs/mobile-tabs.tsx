@@ -4,19 +4,37 @@ import { Tabs } from "antd";
 import Link from "next/link";
 import { ShoppingBag, ShoppingCart } from "lucide-react";
 import { usePathname } from "next/navigation";
+import { useStoreMap } from "effector-react";
+import { $cart } from "@/features/product/add-to-cart/model";
+import { useTheme } from "@/shared/hooks/useTheme";
 
 const MobileTabs: React.FC = () => {
   const pathname = usePathname();
-
+  const cartCount = useStoreMap($cart, (cart) =>
+    cart.reduce((total, item) => total + item.quantity, 0)
+  );
+  const theme = useTheme();
   const tabItems = [
     {
       key: "/catalogue",
-      icon: <ShoppingCart size={20} />,
+      icon: <ShoppingBag size={20} />,
       label: "Каталог",
     },
     {
-      key: "/checkout",
-      icon: <ShoppingBag size={20} />,
+      key: "/cart",
+      icon: (
+        <div className="relative">
+          <ShoppingCart size={20} />
+          {cartCount > 0 && (
+            <div
+              className="absolute -top-1 -right-2 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs"
+              style={{ backgroundColor: theme?.primaryColor }}
+            >
+              {cartCount}
+            </div>
+          )}
+        </div>
+      ),
       label: "Корзина",
     },
   ];
