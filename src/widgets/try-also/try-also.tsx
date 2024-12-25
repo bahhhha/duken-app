@@ -12,8 +12,7 @@ export const TryAlso: React.FC<TryAlsoProps> = ({ products }) => {
   return (
     <div className="container w-full mx-auto">
       <h2 className="text-center font-bold text-xl mb-4">Попробуйте также</h2>
-
-      <div className="flex gap-4 justify-center flex-wrap">
+      <div className="grid md:flex md:flex-wrap md:gap-4 grid-cols-2">
         {products.map((product, idx) => (
           <motion.div
             key={product.id}

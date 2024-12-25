@@ -17,7 +17,12 @@ const CartDrawer: React.FC = () => {
 
   const handleCheckout = () => {
     close();
-    router.push("/checkout");
+    router.push("/cart/checkout");
+  };
+
+  const handleCart = () => {
+    close();
+    router.push("/cart");
   };
 
   if (!isOpen) return null;
@@ -52,6 +57,9 @@ const CartDrawer: React.FC = () => {
           </div>
           <Button type="primary" onClick={handleCheckout}>
             Оплатить
+          </Button>
+          <Button type="text" onClick={handleCart}>
+            Перейти в корзину
           </Button>
           {/* <Button type="text">Перейти в корзину</Button> */}
         </div>

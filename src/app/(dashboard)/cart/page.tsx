@@ -7,16 +7,28 @@ import { Divider, Card } from "antd";
 import { Check } from "lucide-react";
 
 import { $cart, $cartTotal } from "@/features/product/add-to-cart/model";
-import RequestForm from "@/features/send-request/ui/request-form";
 import { fetchSendRequest } from "@/features/send-request/model/query";
-import { useTheme } from "@/shared/hooks/useTheme";
 import { ProductCardRow } from "@/entities/product/product-card-row";
+import { $products } from "@/features/get-products/model";
+import { ForgetSomething } from "@/widgets/forget-something/forget-something";
+import { Button } from "@/shared/ui/button";
 
-function CheckoutPage() {
+function CartPage() {
   const [cartItems, total] = useUnit([$cart, $cartTotal]);
   const requestStatus = useUnit(fetchSendRequest.$status);
   const router = useRouter();
-  const theme = useTheme();
+  const products = useUnit($products);
+
+  const cartItemIds = cartItems.map((item) => item.product.id);
+  const product = products.find((p) => !cartItemIds.includes(p.id)) || null;
+
+  const randomProducts = products
+    .filter((p) => p.id !== product?.id)
+    .slice(0, 4);
+
+  const goToCheckout = () => {
+    router.push("cart/checkout");
+  };
 
   useEffect(() => {
     if (requestStatus === "done") {
@@ -44,7 +56,7 @@ function CheckoutPage() {
   }
 
   return (
-    <div className="w-full min-h-screen p-4 md:p-8 flex flex-col md:flex-row gap-8">
+    <div className="w-full min-h-screen p-4 md:p-8 flex flex-col md:justify-center md:items-start md:flex-row gap-8">
       <motion.div
         className="md:w-1/2 flex flex-col gap-4"
         initial={{ opacity: 0, x: -10 }}
@@ -76,8 +88,17 @@ function CheckoutPage() {
           </div>
         </Card>
       </motion.div>
-
-      <motion.div
+      <div className="flex flex-col md:flex-col-reverse ">
+        <Button
+          onClick={goToCheckout}
+          buttonClassNames="mb-8 md:mb-0 md:mt-2"
+          type="primary"
+          size="large"
+        >
+          Перейти к оплате
+        </Button>
+        <ForgetSomething products={randomProducts} />
+        {/* <motion.div
         className="md:w-1/2 flex flex-col h-fit"
         initial={{ opacity: 0, x: 10 }}
         animate={{ opacity: 1, x: 0 }}
@@ -97,9 +118,10 @@ function CheckoutPage() {
         <div className="mt-4">
           <RequestForm />
         </div>
-      </motion.div>
+      </motion.div> */}
+      </div>
     </div>
   );
 }
 
-export default CheckoutPage;
+export default CartPage;
