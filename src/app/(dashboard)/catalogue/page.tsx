@@ -4,7 +4,10 @@ import { CatalogueGate } from "@/features/get-products/model";
 import { fetchGetProducts } from "@/features/get-products/model/query";
 import { Loading } from "@/shared/ui/loading/loading";
 import { useGate, useUnit } from "effector-react";
-import { $favoritesIds } from "@/features/add-to-favourites/model";
+import {
+  $favoritesIds,
+  FavoritesGate,
+} from "@/features/add-to-favourites/model";
 import { $filteredProducts } from "@/features/filter-products/model";
 import { ProductFilter } from "@/features/filter-products/ui/filter-products";
 import {
@@ -38,9 +41,9 @@ const itemVariants = {
   },
 };
 
-export default function Catalogue() {
+export default function CataloguePage() {
   useGate(CatalogueGate);
-
+  useGate(FavoritesGate);
   const loading = useUnit(fetchGetProducts.$pending);
   const filteredProducts = useUnit($filteredProducts);
   const favoritesIds = useUnit($favoritesIds);
@@ -55,9 +58,9 @@ export default function Catalogue() {
   };
 
   return (
-    <div className="container mx-auto px-4">
+    <div className="mx-auto px-4">
       {loading ? (
-        <div className="w-full h-[40vw]">
+        <div className="w-full md:h-[40vw]">
           <Loading />
         </div>
       ) : (
@@ -74,7 +77,7 @@ export default function Catalogue() {
             <ProductFilter />
           </motion.div>
           <motion.div
-            className="flex flex-col gap-4 w-full pl-4 md:border-l min-h-[calc(100vh-4rem)]"
+            className="flex flex-col gap-4 w-full md:pl-4 md:border-l min-h-[calc(100vh-4rem)]"
             variants={itemVariants}
           >
             <SearchProducts />

@@ -1,4 +1,4 @@
-import { Select, Slider, Radio, Space } from "antd";
+import { Select, Slider, Radio, Space, Card } from "antd";
 import {
   $filterParams,
   $filteredProducts,
@@ -32,7 +32,7 @@ export const ProductFilter: React.FC = () => {
   };
 
   return (
-    <div className="p-4 mt-2">
+    <Card className="p-4 mt-2">
       <Space direction="vertical" className="w-full" size="large">
         <Space>
           <span className="text-xs">Сортировка по: </span>
@@ -73,7 +73,7 @@ export const ProductFilter: React.FC = () => {
         </Space>
 
         <div>
-          <span className="mb-2 block">
+          <span className="mb-2 block text-xs">
             Цена: {filterParams.priceRange[0]} - {filterParams.priceRange[1]}
           </span>
           <Slider
@@ -139,6 +139,6 @@ export const ProductFilter: React.FC = () => {
           продуктов
         </div>
       </Space>
-    </div>
+    </Card>
   );
 };
