@@ -44,7 +44,7 @@ export const ProductCardMini: React.FC<ProductCardMiniProps> = ({
       </Typography.Text>
 
       <Typography.Text className="text-xs text-gray-500 truncate">
-        {product.category}
+        {product.category1}
       </Typography.Text>
 
       <Typography.Text

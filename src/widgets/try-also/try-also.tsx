@@ -10,9 +10,11 @@ interface TryAlsoProps {
 
 export const TryAlso: React.FC<TryAlsoProps> = ({ products }) => {
   return (
-    <div className="container w-full mx-auto">
-      <h2 className="text-center font-bold text-xl mb-4">Попробуйте также</h2>
-      <div className="grid md:flex md:flex-wrap md:gap-4 grid-cols-2">
+    <div className="container w-full mx-auto md:border-t">
+      <h2 className="text-center font-bold text-xl mb-4 md:mt-6">
+        Попробуйте также
+      </h2>
+      <div className="grid md:flex md:flex-wrap md:gap-4 grid-cols-2 md:justify-center">
         {products.map((product, idx) => (
           <motion.div
             key={product.id}

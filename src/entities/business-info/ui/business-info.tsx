@@ -31,12 +31,12 @@ const BusinessInfo: React.FC = () => {
             src={businessDetails.backgroundSrc}
             alt="Business Background"
             fill
-            className="object-cover opacity-90"
+            className="object-cover opacity-90 rounded-lg"
           />
         )}
       </div>
-      <div className="absolute inset-0 bg-black/30 z-[5]"></div>
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/50 z-10 "></div>
+      <div className="absolute inset-0 bg-black/30 z-[5] rounded-lg" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/50 z-10 rounded-lg" />
       <div className="relative z-20 p-4 h-full flex flex-col justify-end text-white">
         <div className="flex items-center mb-2">
           <div className="w-12 h-12 bg-white rounded-full mr-3 overflow-hidden">

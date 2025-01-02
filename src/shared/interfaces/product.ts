@@ -4,8 +4,10 @@ export interface Product {
   description: string;
   price: string;
   perPackage: string;
-  category: string;
-  content: string;
+  category1: string;
+  category2: string;
+  category3: string;
+  category4: string;
   photos: string[];
   recommended: boolean;
   hotPrice: string;

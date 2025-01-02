@@ -19,14 +19,14 @@ export default function ProductPage() {
 
   const randomProducts = products
     .filter((p) => p.id !== product?.id)
-    .slice(0, 4);
+    .slice(0, 5);
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: "easeInOut" }}
-      className="w-full min-h-screen h-fit flex flex-col p-6 md:p-12"
+      className="w-full min-h-screen h-fit flex flex-col p-6 md:px-8"
     >
       {product ? (
         <>

@@ -10,7 +10,7 @@ export const SearchProducts: React.FC = () => {
   const updateSearchQuery = useUnit(setSearchQuery);
 
   return (
-    <div className="mb-4 w-64">
+    <div className="w-64">
       <Input
         label=""
         value={query}

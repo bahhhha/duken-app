@@ -13,7 +13,10 @@ export const setPriceRange = createEvent<[number, number]>();
 export const toggleRecommendedFilter = createEvent();
 export const toggleHotPriceFilter = createEvent();
 export const toggleFavoritesFilter = createEvent();
-export const setSelectedCategory = createEvent<string>();
+export const setCategory1 = createEvent<string>();
+export const setCategory2 = createEvent<string>();
+export const setCategory3 = createEvent<string>();
+export const setCategory4 = createEvent<string>();
 
 export interface FilterParams {
   sortField: "name" | "price";
@@ -22,7 +25,10 @@ export interface FilterParams {
   isRecommendedActive: boolean;
   isHotPriceActive: boolean;
   isFavoritesActive: boolean;
-  selectedCategory: string;
+  category1: string;
+  category2: string;
+  category3: string;
+  category4: string;
 }
 
 sample({
@@ -38,7 +44,10 @@ export const $filterParams = createStore<FilterParams>({
   isRecommendedActive: false,
   isHotPriceActive: false,
   isFavoritesActive: false,
-  selectedCategory: "Все",
+  category1: "",
+  category2: "",
+  category3: "",
+  category4: "",
 })
   .on(setSortField, (state, field) => ({ ...state, sortField: field }))
   .on(setSortDirection, (state, direction) => ({
@@ -58,10 +67,10 @@ export const $filterParams = createStore<FilterParams>({
     ...state,
     isFavoritesActive: !state.isFavoritesActive,
   }))
-  .on(setSelectedCategory, (state, category) => ({
-    ...state,
-    selectedCategory: category,
-  }));
+  .on(setCategory1, (state, category) => ({ ...state, category1: category }))
+  .on(setCategory2, (state, category) => ({ ...state, category2: category }))
+  .on(setCategory3, (state, category) => ({ ...state, category3: category }))
+  .on(setCategory4, (state, category) => ({ ...state, category4: category }));
 
 export const $filteredProducts = createStore<Product[]>([]);
 
