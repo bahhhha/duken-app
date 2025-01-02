@@ -9,9 +9,13 @@ export const getPriceRangeLimits = (products: Product[]): [number, number] => {
   return [Math.min(...prices), Math.max(...prices)];
 };
 
-export const getUniqueCategories = (products: Product[]): string[] => {
-  const categories = Array.from(new Set(products.map((p) => p.category)));
-  return ["Все", ...categories];
+export const getUniqueCategories = (
+  products: Product[],
+  categoryKey: "category1" | "category2" | "category3" | "category4"
+): string[] => {
+  return Array.from(
+    new Set(products.map((p) => p[categoryKey]).filter(Boolean))
+  );
 };
 
 export const filterAndSortProducts = (
@@ -26,11 +30,13 @@ export const filterAndSortProducts = (
     isRecommendedActive,
     isHotPriceActive,
     isFavoritesActive,
-    selectedCategory,
+    category1,
+    category2,
+    category3,
+    category4,
   } = params;
 
   const [minPrice, maxPrice] = priceRange;
-
   let filtered = [...products];
 
   filtered = filtered.filter((product) => {
@@ -42,15 +48,21 @@ export const filterAndSortProducts = (
     const matchesRecommended = !isRecommendedActive || product.recommended;
     const matchesHotPrice = !isHotPriceActive || !!product.hotPrice;
     const matchesFavorites = !isFavoritesActive || favoritesIds.has(product.id);
-    const matchesCategory =
-      selectedCategory === "Все" || product.category === selectedCategory;
+
+    const matchesCategory1 = !category1 || product.category1 === category1;
+    const matchesCategory2 = !category2 || product.category2 === category2;
+    const matchesCategory3 = !category3 || product.category3 === category3;
+    const matchesCategory4 = !category4 || product.category4 === category4;
 
     return (
       priceInRange &&
       matchesRecommended &&
       matchesHotPrice &&
       matchesFavorites &&
-      matchesCategory
+      matchesCategory1 &&
+      matchesCategory2 &&
+      matchesCategory3 &&
+      matchesCategory4
     );
   });
 

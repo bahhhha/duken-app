@@ -33,7 +33,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   return (
     <div
-      className="w-full lg:w-[17.5rem] cursor-pointer hover:bg-zinc-100 duration-100"
+      className="w-full lg:w-[16.5rem] cursor-pointer hover:bg-zinc-100 duration-100"
       onClick={handleDetailsClick}
     >
       <div className="flex flex-col w-full items-stretch">

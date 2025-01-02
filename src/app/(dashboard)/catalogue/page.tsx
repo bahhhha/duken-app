@@ -16,6 +16,8 @@ import {
 } from "@/features/search-products/model";
 import { SearchProducts } from "@/features/search-products";
 import { motion } from "framer-motion";
+import { useTheme } from "@/shared/hooks/useTheme";
+import BusinessInfo from "@/entities/business-info/ui/business-info";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -49,7 +51,7 @@ export default function CataloguePage() {
   const favoritesIds = useUnit($favoritesIds);
   const query = useUnit($searchQuery);
   const searchedProducts = useUnit($searchedProducts);
-
+  const theme = useTheme();
   const renderProducts = () => {
     if (query) {
       return searchedProducts;
@@ -71,26 +73,33 @@ export default function CataloguePage() {
           variants={containerVariants}
         >
           <motion.div
-            className="w-96 md:sticky top-16 pr-4"
+            className="w-96 md:sticky py-4 gap-4"
             variants={itemVariants}
           >
+            <BusinessInfo />
             <ProductFilter />
           </motion.div>
           <motion.div
-            className="flex flex-col gap-4 w-full md:pl-4 md:border-l min-h-[calc(100vh-4rem)]"
+            className="flex flex-col gap-4 w-full md:pl-4 md:pt-2 md:border-l min-h-[calc(100vh-4rem)]"
             variants={itemVariants}
           >
             <SearchProducts />
+            <div>
+              Показано{" "}
+              <span
+                className="font-bold"
+                style={{ color: theme?.primaryColor }}
+              >
+                {filteredProducts.length}
+              </span>{" "}
+              продуктов
+            </div>
             <motion.div
-              className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 overflow-y-auto overflow-x-hidden"
+              className="grid grid-cols-2 lg:grid-cols-4 gap-4 overflow-y-auto overflow-x-hidden"
               variants={containerVariants}
             >
               {renderProducts().map((product) => (
-                <motion.div
-                  key={product.id}
-                  className="w-full"
-                  variants={itemVariants}
-                >
+                <motion.div key={product.id} variants={itemVariants}>
                   <ProductCard
                     product={product}
                     isFavorite={favoritesIds.has(product.id)}

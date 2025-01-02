@@ -15,13 +15,15 @@ export const ProductInfo: React.FC<ProductInfoProps> = ({ product }) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
   const tags = [
-    { key: "category", value: product.category },
+    { key: "category2", value: product.category2 },
+    { key: "category3", value: product.category3 },
+    { key: "category4", value: product.category4 },
     { key: "flavor", value: product.perPackage },
   ];
 
   return (
-    <div className="max-w-6xl mx-auto w-full">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-start">
+    <div className="max-w-6xl w-full">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
         <div className="flex flex-col items-center gap-4">
           <div className="relative w-full max-w-md aspect-square">
             <AnimatePresence mode="wait">
@@ -79,17 +81,12 @@ export const ProductInfo: React.FC<ProductInfoProps> = ({ product }) => {
         <div className="flex flex-col space-y-4">
           <Typography.Title level={2}>{product.name}</Typography.Title>
           <Typography.Text className="text-gray-500 text-lg">
-            {product.category}
+            {product.category1}
           </Typography.Text>
 
           <div>
             <Typography.Text strong>Описание</Typography.Text>
             <p className="text-gray-600">{product.description}</p>
-          </div>
-
-          <div>
-            <Typography.Text strong>Состав</Typography.Text>
-            <p className="text-gray-600">{product.content}</p>
           </div>
 
           <div className="flex flex-wrap gap-2">
