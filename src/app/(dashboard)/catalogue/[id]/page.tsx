@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useUnit, useGate } from "effector-react";
 import { useParams } from "next/navigation";
 import { motion } from "framer-motion";
@@ -8,14 +8,22 @@ import { motion } from "framer-motion";
 import { $products, CatalogueGate } from "@/features/get-products/model";
 import { ProductInfo } from "@/entities/product/product-info/ui/product-info";
 import { TryAlso } from "@/widgets/try-also/try-also";
+import { useAnalytics } from "@/shared/hooks/useAnalytics";
+import { Product } from "@/shared/interfaces/product";
 
 export default function ProductPage() {
+  const { trackProductView } = useAnalytics();
+
   const params = useParams<{ id: string }>();
   useGate(CatalogueGate);
 
   const products = useUnit($products);
 
   const product = products.find((p) => p.id === params.id) || null;
+
+  useEffect(() => {
+    trackProductView(product as Product);
+  }, [product, trackProductView]);
 
   const randomProducts = products
     .filter((p) => p.id !== product?.id)
