@@ -1,9 +1,13 @@
 import { CheckoutButton } from "@/entities/checkout/checkout-button";
+import { $details } from "@/features/get-products/model";
 import { CartDrawer } from "@/widgets/cart/cart-drawer";
 import GoBackButton from "@/widgets/go-back-button/go-back-button";
+import { useUnit } from "effector-react";
+import { X } from "lucide-react";
 import Image from "next/image";
 
 const Header: React.FC = () => {
+  const businessInfo = useUnit($details);
   return (
     <div className="w-full">
       <header className="sticky top-0 z-[50] w-screen flex items-center p-4 bg-white">
@@ -20,9 +24,15 @@ const Header: React.FC = () => {
               width={60}
               height={60}
             />
-            <span className="text-zinc-400 text-xs mt-1 font-semibold">
-              DUKEN
-            </span>
+            <div className="flex items-center gap-1 text-zinc-400 text-xs mt-1 font-semibold">
+              <span>DUKEN</span>
+              {businessInfo?.name && (
+                <div className="flex items-center gap-1">
+                  <X size={12} strokeWidth={2.2} />
+                  <span>{businessInfo.name.toLocaleUpperCase()}</span>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 

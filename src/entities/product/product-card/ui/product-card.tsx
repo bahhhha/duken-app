@@ -8,6 +8,7 @@ import { toggleFavorite } from "@/features/add-to-favourites/model";
 import { PriceChip } from "@/entities/product/price-chip";
 import Image from "next/image";
 import { useTheme } from "@/shared/hooks/useTheme";
+import { NoStock } from "../../no-stock";
 
 interface ProductCardProps {
   product: Product;
@@ -75,10 +76,14 @@ const ProductCard: React.FC<ProductCardProps> = ({
             </div>
           </div>
         </div>
-        <div className="p-2">
+        <div className="px-2 pb-2">
           <h1 className="text-base flex font-bold line-clamp-2 h-12">
             {product.name}
           </h1>
+          <p className="text-xs text-gray-500 h-4 mt-1">
+            В наличии:{" "}
+            <span className="italic font-semibold">{product.quantity}</span>
+          </p>
           <p className="text-xs text-gray-500 mb-2 h-4 line-clamp-1 mt-1">
             {product.description}
           </p>
@@ -86,8 +91,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
             <PriceChip {...getPrice()} />
           </div>
 
-          <div className="w-full flex-col h-8">
-            <AddToCart product={product} />
+          <div className="w-full h-8">
+            {product.quantity > 0 ? (
+              <AddToCart product={product} />
+            ) : (
+              <NoStock />
+            )}
           </div>
         </div>
       </div>

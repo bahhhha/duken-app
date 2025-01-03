@@ -20,11 +20,7 @@ const BusinessInfo: React.FC = () => {
   }
 
   return (
-    <div
-      className="relative w-full h-48 overflow-hidden"
-      role="button"
-      tabIndex={0}
-    >
+    <div className="relative w-full h-48 overflow-hidden" tabIndex={0}>
       <div className="absolute inset-0 z-0">
         {businessDetails?.backgroundSrc && (
           <Image
