@@ -1,14 +1,15 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Card, Spin, Divider } from "antd";
-
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/shared/ui/input";
 import { Textarea } from "@/shared/ui/textarea";
 import { useUnit } from "effector-react";
 import { submitRequest } from "../model";
 import { fetchSendRequest } from "../model/query";
+import { useAnalytics } from "@/shared/hooks/useAnalytics";
+import { $cart } from "@/features/product/add-to-cart/model";
 
 interface FormValues {
   firstName: string;
@@ -28,6 +29,9 @@ const RequestForm: React.FC = () => {
     fetchSendRequest.$status,
   ]);
 
+  const { trackCheckoutStarted, trackCheckoutCompleted } = useAnalytics();
+  const hasStartedRef = useRef(false);
+  const cart = useUnit($cart);
   const formik = useFormik<FormValues>({
     initialValues: {
       firstName: "",
@@ -51,6 +55,21 @@ const RequestForm: React.FC = () => {
       houseNumber: Yup.string().required("Требуется номер дома"),
     }),
     onSubmit: (values, { resetForm }) => {
+      trackCheckoutCompleted(
+        {
+          firstName: values.firstName,
+          lastName: values.lastName,
+          email: values.email,
+          phoneNumber: values.phone,
+          streetAddress: values.streetAddress,
+          houseNumber: values.houseNumber,
+          apartmentNumber: values.apartmentNumber,
+          floor: values.floor,
+          message: values.comments,
+        },
+        cart
+      );
+
       sendRequest({
         firstName: values.firstName,
         lastName: values.lastName,
@@ -65,6 +84,23 @@ const RequestForm: React.FC = () => {
       resetForm();
     },
   });
+
+  const handleFieldInteraction = (
+    e:
+      | React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>
+      | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    if (!hasStartedRef.current) {
+      trackCheckoutStarted(e.target.name);
+      hasStartedRef.current = true;
+    }
+
+    if (e.type === "blur") {
+      formik.handleBlur(e);
+    } else if (e.type === "change") {
+      formik.handleChange(e);
+    }
+  };
 
   if (requestStatus === "pending") {
     return (
@@ -83,8 +119,8 @@ const RequestForm: React.FC = () => {
               label="Имя"
               name="firstName"
               value={formik.values.firstName}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
+              onChange={handleFieldInteraction}
+              onBlur={handleFieldInteraction}
               placeholder="Ваше имя"
             />
             {formik.errors.firstName && (
@@ -98,8 +134,8 @@ const RequestForm: React.FC = () => {
               label="Фамилия"
               name="lastName"
               value={formik.values.lastName}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
+              onChange={handleFieldInteraction}
+              onBlur={handleFieldInteraction}
               placeholder="Ваша фамилия"
             />
             {formik.errors.lastName && (
@@ -119,8 +155,8 @@ const RequestForm: React.FC = () => {
               name="email"
               type="email"
               value={formik.values.email}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
+              onChange={handleFieldInteraction}
+              onBlur={handleFieldInteraction}
               placeholder="Ваш email"
             />
             {formik.errors.email && (
@@ -133,8 +169,8 @@ const RequestForm: React.FC = () => {
               name="phone"
               type="tel"
               value={formik.values.phone}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
+              onChange={handleFieldInteraction}
+              onBlur={handleFieldInteraction}
               placeholder="Ваш номер телефона"
             />
             {formik.errors.phone && (
@@ -150,8 +186,8 @@ const RequestForm: React.FC = () => {
             label="Улица"
             name="streetAddress"
             value={formik.values.streetAddress}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
+            onChange={handleFieldInteraction}
+            onBlur={handleFieldInteraction}
             placeholder="Улица"
           />
           {formik.errors.streetAddress && (
@@ -166,8 +202,8 @@ const RequestForm: React.FC = () => {
               label="Дом"
               name="houseNumber"
               value={formik.values.houseNumber}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
+              onChange={handleFieldInteraction}
+              onBlur={handleFieldInteraction}
               placeholder="№"
             />
             {formik.errors.houseNumber && (
@@ -181,8 +217,8 @@ const RequestForm: React.FC = () => {
               label="Квартира"
               name="apartmentNumber"
               value={formik.values.apartmentNumber}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
+              onChange={handleFieldInteraction}
+              onBlur={handleFieldInteraction}
               placeholder="№"
             />
           </div>
@@ -191,8 +227,8 @@ const RequestForm: React.FC = () => {
               label="Этаж"
               name="floor"
               value={formik.values.floor}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
+              onChange={handleFieldInteraction}
+              onBlur={handleFieldInteraction}
               placeholder="№"
             />
           </div>
@@ -205,8 +241,8 @@ const RequestForm: React.FC = () => {
             label="Комментарии"
             name="comments"
             value={formik.values.comments}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
+            onChange={handleFieldInteraction}
+            onBlur={handleFieldInteraction}
             placeholder="Ваши комментарии (при необходимости)"
           />
         </div>

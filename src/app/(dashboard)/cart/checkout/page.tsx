@@ -10,11 +10,18 @@ import { $cart, $cartTotal } from "@/features/product/add-to-cart/model";
 import { fetchSendRequest } from "@/features/send-request/model/query";
 import { ProductCardRow } from "@/entities/product/product-card-row";
 import RequestForm from "@/features/send-request/ui/request-form";
+import { useAnalytics } from "@/shared/hooks/useAnalytics";
 
 function CheckoutPage() {
   const [cartItems, total] = useUnit([$cart, $cartTotal]);
   const requestStatus = useUnit(fetchSendRequest.$status);
   const router = useRouter();
+
+  const { trackCheckoutOpened } = useAnalytics();
+
+  useEffect(() => {
+    trackCheckoutOpened(total, cartItems.length);
+  }, [trackCheckoutOpened, total, cartItems.length]);
 
   useEffect(() => {
     if (requestStatus === "done") {

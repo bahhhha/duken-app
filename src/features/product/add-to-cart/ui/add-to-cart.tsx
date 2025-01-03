@@ -4,6 +4,7 @@ import { useUnit } from "effector-react";
 import { Check, Minus, Pencil, Plus } from "lucide-react";
 import { $cart, addProduct, removeProduct, setProductQuantity } from "../model";
 import { useState } from "react";
+import { useAnalytics } from "@/shared/hooks/useAnalytics";
 
 export const AddToCart = ({ product }: { product: Product }) => {
   const [setQuantity, increment, decrement, cart] = useUnit([
@@ -12,8 +13,10 @@ export const AddToCart = ({ product }: { product: Product }) => {
     removeProduct,
     $cart,
   ]);
-  const cartItem = cart.find((item) => item.product.id === product.id);
 
+  const { trackAddToCart, trackRemoveFromCart } = useAnalytics();
+
+  const cartItem = cart.find((item) => item.product.id === product.id);
   const productCount = cartItem ? cartItem.quantity : 0;
   const [isEditing, setIsEditing] = useState(false);
   const [inputValue, setInputValue] = useState<number>(productCount);
@@ -21,9 +24,35 @@ export const AddToCart = ({ product }: { product: Product }) => {
   const handleQuantityUpdate = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (inputValue >= 0 && inputValue <= product.quantity) {
+      const difference = inputValue - productCount;
+      if (difference > 0) {
+        trackAddToCart(product, difference);
+      } else if (difference < 0) {
+        trackRemoveFromCart(product, Math.abs(difference));
+      }
       setQuantity({ product, quantity: inputValue });
     }
     setIsEditing(false);
+  };
+
+  const handleIncrement = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!isMaxQuantityReached) {
+      increment(product);
+      trackAddToCart(product, 1);
+    }
+  };
+
+  const handleDecrement = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    decrement(product);
+    trackRemoveFromCart(product, 1);
+  };
+
+  const handleInitialAdd = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    increment(product);
+    trackAddToCart(product, 1);
   };
 
   const isMaxQuantityReached = productCount >= product.quantity;
@@ -35,10 +64,7 @@ export const AddToCart = ({ product }: { product: Product }) => {
     >
       {!isEditing && (
         <button
-          onClick={(e) => {
-            e.stopPropagation();
-            decrement(product);
-          }}
+          onClick={handleDecrement}
           className="cursor-pointer flex justify-center hover:bg-zinc-50 w-6 h-6 rounded-full items-center duration-75"
         >
           <Minus size={16} />
@@ -67,12 +93,7 @@ export const AddToCart = ({ product }: { product: Product }) => {
       </div>
       {!isEditing && (
         <button
-          onClick={(e) => {
-            e.stopPropagation();
-            if (!isMaxQuantityReached) {
-              increment(product);
-            }
-          }}
+          onClick={handleIncrement}
           disabled={isMaxQuantityReached}
           className={`cursor-pointer flex justify-center w-6 h-6 rounded-full items-center duration-75 ${
             isMaxQuantityReached
@@ -102,10 +123,7 @@ export const AddToCart = ({ product }: { product: Product }) => {
     <div className="w-full" onClick={(e) => e.stopPropagation()}>
       <Button
         type="primary"
-        onClick={(e) => {
-          e.stopPropagation();
-          increment(product);
-        }}
+        onClick={handleInitialAdd}
         disabled={product.quantity === 0}
         icon={<Plus size={16} />}
       >

@@ -53,7 +53,7 @@ const CartDrawer: React.FC = () => {
         <div className="flex flex-col w-full gap-2">
           <div className="flex w-full mb-4 justify-between text-base font-semibold">
             <span>Итого:</span>
-            <span>{total}</span>
+            <span>{total} ₸</span>
           </div>
           <Button type="primary" onClick={handleCheckout}>
             Оплатить

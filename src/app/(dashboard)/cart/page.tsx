@@ -12,15 +12,20 @@ import { ProductCardRow } from "@/entities/product/product-card-row";
 import { $products } from "@/features/get-products/model";
 import { ForgetSomething } from "@/widgets/forget-something/forget-something";
 import { Button } from "@/shared/ui/button";
+import { useAnalytics } from "@/shared/hooks/useAnalytics";
 
 function CartPage() {
   const [cartItems, total] = useUnit([$cart, $cartTotal]);
   const requestStatus = useUnit(fetchSendRequest.$status);
   const router = useRouter();
   const products = useUnit($products);
-
+  const { trackCartOpened } = useAnalytics();
   const cartItemIds = cartItems.map((item) => item.product.id);
   const product = products.find((p) => !cartItemIds.includes(p.id)) || null;
+
+  useEffect(() => {
+    trackCartOpened();
+  }, [trackCartOpened]);
 
   const randomProducts = products
     .filter((p) => p.id !== product?.id)

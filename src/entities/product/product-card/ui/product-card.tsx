@@ -9,6 +9,7 @@ import { PriceChip } from "@/entities/product/price-chip";
 import Image from "next/image";
 import { useTheme } from "@/shared/hooks/useTheme";
 import { NoStock } from "../../no-stock";
+import { useAnalytics } from "@/shared/hooks/useAnalytics";
 
 interface ProductCardProps {
   product: Product;
@@ -20,6 +21,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   isFavorite = false,
 }) => {
   const navigate = useRouter();
+  const { trackFavoriteToggle } = useAnalytics();
 
   const getPrice = () => {
     return {
@@ -30,6 +32,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   const theme = useTheme();
 
+  const handleFavoriteClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    toggleFavorite(product);
+    trackFavoriteToggle(product, !isFavorite);
+  };
   const handleDetailsClick = () => navigate.push(`catalogue/${product.id}`);
 
   return (
@@ -52,10 +59,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             )}
 
             <button
-              onClick={(e) => {
-                e.stopPropagation();
-                toggleFavorite(product);
-              }}
+              onClick={handleFavoriteClick}
               className={`absolute top-2 right-2 z-10 p-2 rounded-full hover:bg-black/20
                   transition-colors shadow-sm ${isFavorite && "bg-black/20"}`}
             >

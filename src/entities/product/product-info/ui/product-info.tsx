@@ -84,7 +84,12 @@ export const ProductInfo: React.FC<ProductInfoProps> = ({ product }) => {
           <Typography.Text className="text-gray-500 text-lg">
             {product.category1}
           </Typography.Text>
-
+          <p className="my-2">
+            <Typography.Text strong>В наличии:</Typography.Text>{" "}
+            <Typography.Text className="text-gray-600">
+              {product.quantity}
+            </Typography.Text>
+          </p>
           <div>
             <Typography.Text strong>Описание</Typography.Text>
             <p className="text-gray-600">{product.description}</p>

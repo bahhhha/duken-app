@@ -4,7 +4,7 @@ import { createEvent, createStore, combine } from "effector";
 export interface CartItem {
   product: Product;
   quantity: number;
-  total: number; // Add total for each item
+  total: number;
 }
 
 export const addProduct = createEvent<Product>();
