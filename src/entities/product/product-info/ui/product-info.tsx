@@ -6,6 +6,7 @@ import { Typography, Tag } from "antd";
 import { Product } from "@/shared/interfaces/product";
 import { Chip } from "@/shared/ui/chip";
 import { AddToCart } from "@/features/product/add-to-cart/ui/add-to-cart";
+import { NoStock } from "../../no-stock";
 
 export interface ProductInfoProps {
   product: Product;
@@ -99,7 +100,11 @@ export const ProductInfo: React.FC<ProductInfoProps> = ({ product }) => {
 
           <div className="flex items-center gap-4">
             <Chip>{product.price}₸</Chip>
-            <AddToCart product={product} />
+            {product.quantity > 0 ? (
+              <AddToCart product={product} />
+            ) : (
+              <NoStock />
+            )}
           </div>
         </div>
       </div>

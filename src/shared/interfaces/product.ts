@@ -11,4 +11,5 @@ export interface Product {
   photos: string[];
   recommended: boolean;
   hotPrice: string;
+  quantity: number;
 }

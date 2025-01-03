@@ -20,11 +20,13 @@ export const AddToCart = ({ product }: { product: Product }) => {
 
   const handleQuantityUpdate = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (inputValue >= 0) {
+    if (inputValue >= 0 && inputValue <= product.quantity) {
       setQuantity({ product, quantity: inputValue });
     }
     setIsEditing(false);
   };
+
+  const isMaxQuantityReached = productCount >= product.quantity;
 
   return productCount >= 1 ? (
     <div
@@ -45,9 +47,16 @@ export const AddToCart = ({ product }: { product: Product }) => {
       <div className="relative w-2/3 overflow-hidden flex justify-center items-center">
         {isEditing ? (
           <input
+            type="number"
             min={0}
+            max={product.quantity}
             value={inputValue}
-            onChange={(e) => setInputValue(Number(e.target.value) ?? 0)}
+            onChange={(e) => {
+              const value = Number(e.target.value);
+              if (value <= product.quantity) {
+                setInputValue(value);
+              }
+            }}
             onClick={(e) => e.stopPropagation()}
             autoFocus
             className="w-full text-md outline-none text-center"
@@ -60,9 +69,16 @@ export const AddToCart = ({ product }: { product: Product }) => {
         <button
           onClick={(e) => {
             e.stopPropagation();
-            increment(product);
+            if (!isMaxQuantityReached) {
+              increment(product);
+            }
           }}
-          className="cursor-pointer flex justify-center hover:bg-zinc-50 w-6 h-6 rounded-full items-center duration-75"
+          disabled={isMaxQuantityReached}
+          className={`cursor-pointer flex justify-center w-6 h-6 rounded-full items-center duration-75 ${
+            isMaxQuantityReached
+              ? "opacity-50 cursor-not-allowed"
+              : "hover:bg-zinc-50"
+          }`}
         >
           <Plus size={16} />
         </button>
@@ -90,9 +106,10 @@ export const AddToCart = ({ product }: { product: Product }) => {
           e.stopPropagation();
           increment(product);
         }}
+        disabled={product.quantity === 0}
         icon={<Plus size={16} />}
       >
-        В корзину
+        {product.quantity === 0 ? "Нет в наличии" : "В корзину"}
       </Button>
     </div>
   );

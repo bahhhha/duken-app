@@ -16,7 +16,7 @@ export async function GET() {
     const sheets = google.sheets({ version: "v4", auth });
 
     const spreadsheetId = process.env.SPREADSHEET_ID;
-    const range = "Positions!A1:M20";
+    const range = "Positions!A1:N20";
 
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId,
@@ -57,6 +57,7 @@ export async function GET() {
         photos: photoUrls,
         hotPrice: row[10] || "",
         recommended: row[11] === "TRUE",
+        quantity: Number(row[12]) || 0,
       };
     });
     return NextResponse.json({

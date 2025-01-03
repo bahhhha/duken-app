@@ -26,7 +26,7 @@ export default function ProductPage() {
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: "easeInOut" }}
-      className="w-full min-h-screen h-fit flex flex-col p-6 md:px-8"
+      className="w-full min-h-screen h-fit md:py-8 flex flex-col p-6 md:px-8"
     >
       {product ? (
         <>

@@ -90,7 +90,7 @@ export default function CataloguePage() {
                 className="font-bold"
                 style={{ color: theme?.primaryColor }}
               >
-                {filteredProducts.length}
+                {query ? searchedProducts.length : filteredProducts.length}
               </span>{" "}
               продуктов
             </div>
